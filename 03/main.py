@@ -1,7 +1,7 @@
 import easygui
 import time
 
-AOCDAY = "01"
+AOCDAY = "03"
 
 def readFile(fileName):
     with open(fileName, "r") as file:
@@ -9,23 +9,28 @@ def readFile(fileName):
 
 def part1(lines):
     inputString = lines[0]
-    count = 0
-    values = {"(": 1, ")": -1}
-    for i in range(len(inputString)):
-        if inputString[i] in values:
-            count += values[inputString[i]]
-    return(f"Ending score is {count}")
+    moves = {"<": [-1, 0], ">": [1, 0], "^": [0, -1], "v": [0, 1]}
+    pos = [0,0]
+    visited = ["0:0"]
+    for move in inputString:
+        pos[0] += moves[move][0]
+        pos[1] += moves[move][1]
+        if str(pos[0]) + ":" + str(pos[1]) not in visited:
+            visited.append(str(pos[0]) + ":" + str(pos[1]))
+    return(f"Santa visited {len(visited)} houses")
 
 def part2(lines):
     inputString = lines[0]
-    count = 0
-    values = {"(": 1, ")": -1}
+    moves = {"<": [-1, 0], ">": [1, 0], "^": [0, -1], "v": [0, 1]}
+    pos = [[0,0],[0,0]]
+
+    visited = ["0:0"]
     for i in range(len(inputString)):
-        if inputString[i] in values:
-            count += values[inputString[i]]
-        if count < 0:
-            return f"Santa entered the basement on position {i+1}"
-    return(f"Santa never entered the basement")
+        pos[i%2][0] += moves[inputString[i]][0]
+        pos[i%2][1] += moves[inputString[i]][1]
+        if str(pos[i%2][0]) + ":" + str(pos[i%2][1]) not in visited:
+            visited.append(str(pos[i%2][0]) + ":" + str(pos[i%2][1]))
+    return(f"Santa visited {len(visited)} houses")
 
 def main ():
     fileName = easygui.fileopenbox(default=f"./"+AOCDAY+"/"+"*.txt")

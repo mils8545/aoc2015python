@@ -1,31 +1,31 @@
 import easygui
 import time
 
-AOCDAY = "01"
+AOCDAY = "05"
 
 def readFile(fileName):
     with open(fileName, "r") as file:
         return file.readlines()
 
+def md5(s):
+    import hashlib
+    return hashlib.md5(s.encode('utf-8')).hexdigest()
+
 def part1(lines):
-    inputString = lines[0]
-    count = 0
-    values = {"(": 1, ")": -1}
-    for i in range(len(inputString)):
-        if inputString[i] in values:
-            count += values[inputString[i]]
-    return(f"Ending score is {count}")
+    calcedHash = "fffffffffffff"
+    num = -1
+    while calcedHash [:5] != "00000":
+        num += 1
+        calcedHash = md5(lines[0] + str(num))
+    return(f"The number is {num}.")
 
 def part2(lines):
-    inputString = lines[0]
-    count = 0
-    values = {"(": 1, ")": -1}
-    for i in range(len(inputString)):
-        if inputString[i] in values:
-            count += values[inputString[i]]
-        if count < 0:
-            return f"Santa entered the basement on position {i+1}"
-    return(f"Santa never entered the basement")
+    calcedHash = "fffffffffffff"
+    num = -1
+    while calcedHash [:6] != "000000":
+        num += 1
+        calcedHash = md5(lines[0] + str(num))
+    return(f"The number is {num}.")
 
 def main ():
     fileName = easygui.fileopenbox(default=f"./"+AOCDAY+"/"+"*.txt")

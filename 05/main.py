@@ -1,8 +1,6 @@
 import easygui
 import time
 
-from numpy import true_divide
-
 AOCDAY = "05"
 
 def readFile(fileName):

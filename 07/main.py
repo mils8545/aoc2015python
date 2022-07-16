@@ -92,6 +92,7 @@ def part2(lines):
             wires[instruction["b"]] = int(instruction["b"])
         except:
             pass
+        
     while "a" not in wires:
         for instruction in instructions:
             if instruction["target"] not in wires:

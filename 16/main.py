@@ -1,4 +1,3 @@
-from winreg import REG_OPTION_BACKUP_RESTORE
 import easygui
 import time
 

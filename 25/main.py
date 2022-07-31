@@ -12,21 +12,23 @@ def readFile(fileName):
 
 def parseLines(lines):
     vals = lines[0].split(" ")
-    return(int(vals[15][:-1]), int(vals[17][:-1]))
+    return(int(vals[16][:-1]), int(vals[18][:-1]))
 
-def code_count(row, column):
-    num = row * range - 2
-    sum = num * (num + 1) / 2
+def codeCount(row, column):
+    num = row + column - 2
+    sum = (num * (num + 1)) // 2
     return sum + column
+
+def codeCalc(codeNum):
+    calcNum = 20151125
+    for i in range(1, codeNum):
+        calcNum = (calcNum * 252533) % 33554393
+    return calcNum
 
 def part1(lines):
     row, column = parseLines(lines)
-    print(row, column)
-
-    #return(f"The quantum entanglement of the best arrangement is {quantumCalc(groupings[0])}")
-
-def part2(lines):
-    pass
+    codeNum = codeCount(row, column)
+    return(f"The code at row {row}, column {column} is {codeCalc(codeNum)}.")
 
 def main ():
     fileName = easygui.fileopenbox(default=f"./"+AOCDAY+"/"+"*.txt")
@@ -37,10 +39,5 @@ def main ():
     print("Advent of Code 2015 Day " + AOCDAY + ":")
     print("  Part 1 Execution Time: " + str(round((p1EndTime - p1StartTime)*1000,3)) + " milliseconds")
     print("  Part 1 Result: " + str(p1Result))
-    p2StartTime = time.perf_counter()
-    p2Result = part2(lines)
-    p2EndTime = time.perf_counter()
-    print("  Part 2 Execution Time: " + str(round((p2EndTime - p2StartTime)*1000,3)) + " milliseconds")
-    print("  Part 2 Result: " + str(p2Result))
 
 main()

@@ -1,7 +1,7 @@
 import easygui
 import time
 
-AOCDAY = "25"
+AOCDAY = "24"
 
 def readFile(fileName):
     with open(fileName, "r") as file:
@@ -11,22 +11,78 @@ def readFile(fileName):
     return lines
 
 def parseLines(lines):
-    vals = lines[0].split(" ")
-    return(int(vals[15][:-1]), int(vals[17][:-1]))
+    integers = []
+    for line in lines:
+        integers.append(int(line))
+    return(integers)
 
-def code_count(row, column):
-    num = row * range - 2
-    sum = num * (num + 1) / 2
-    return sum + column
+def quantumCalc(integers):
+    total = 1
+    for i in integers:
+        total *= i
+    return(total)
 
 def part1(lines):
-    row, column = parseLines(lines)
-    print(row, column)
+    packages = parseLines(lines)
+    total = sum(packages)
+    target = total // 3
 
-    #return(f"The quantum entanglement of the best arrangement is {quantumCalc(groupings[0])}")
+    groupings = [[]]
+    for package in packages:
+        for grouping in groupings:
+            if package not in grouping:
+                if package + sum(grouping) <= target:
+                    groupings.append(grouping + [package])
+    
+    goodGroupings = []
+    for grouping in groupings:
+        if sum(grouping) == target:
+            goodGroupings.append(grouping)
+    
+    minLength = len(packages)
+    for grouping in goodGroupings:
+        if len(grouping) < minLength:
+            minLength = len(grouping)
+
+    groupings = []
+
+    for grouping in goodGroupings:
+        if len(grouping) == minLength:
+            groupings.append(grouping)
+
+    groupings.sort(key=lambda x: quantumCalc(x))
+    return(f"The quantum entanglement of the best arrangement is {quantumCalc(groupings[0])}")
 
 def part2(lines):
-    pass
+    packages = parseLines(lines)
+    total = sum(packages)
+    target = total // 4
+
+    groupings = [[]]
+    for package in packages:
+        for grouping in groupings:
+            if package not in grouping:
+                if package + sum(grouping) <= target:
+                    groupings.append(grouping + [package])
+    
+    goodGroupings = []
+    for grouping in groupings:
+        if sum(grouping) == target:
+            goodGroupings.append(grouping)
+    
+    minLength = len(packages)
+    for grouping in goodGroupings:
+        if len(grouping) < minLength:
+            minLength = len(grouping)
+
+    groupings = []
+
+    for grouping in goodGroupings:
+        if len(grouping) == minLength:
+            groupings.append(grouping)
+
+    groupings.sort(key=lambda x: quantumCalc(x))
+    return(f"The quantum entanglement of the best arrangement is {quantumCalc(groupings[0])}")
 
 def main ():
     fileName = easygui.fileopenbox(default=f"./"+AOCDAY+"/"+"*.txt")
